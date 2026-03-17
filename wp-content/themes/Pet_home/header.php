@@ -1,10 +1,17 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html <?php language_attributes(); ?>>
 <head>
-    <meta charset="UTF-8">
+    <meta charset="<?php bloginfo('charset'); ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Website mua sắm điện thoại, thiết bị công nghệ chính hãng, uy tín.">
+    <meta name="description" content="<?php echo is_single() ? wp_trim_words(get_the_excerpt(), 20) : 'Phòng khám thú y & Siêu thị thú cưng FSE. Cung cấp thức ăn, phụ kiện, dịch vụ chăm sóc thú cưng uy tín, chất lượng nhất.'; ?>">
     <meta name="robots" content="index, follow">
+
+    <!-- Thẻ Open Graph (Chuẩn SEO Facebook, Zalo, mạng xã hội) -->
+    <meta property="og:title" content="<?php wp_title('|', true, 'right'); bloginfo('name'); ?>">
+    <meta property="og:description" content="Phòng khám thú y & Siêu thị thú cưng FSE - Điểm đến tin cậy cho thú cưng của bạn.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="<?php echo home_url('/'); ?>">
+
     <title><?php wp_title('|', true, 'right'); bloginfo('name'); ?></title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -13,15 +20,41 @@
             border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
         }
         body { background-color: #fff6ef; } /* Màu nền cam nhạt */
+        /* Phục hồi định dạng văn bản trong tab Mô tả sản phẩm & Bài viết */
+        #tab-description h2, .hentry h2 { font-size: 1.8rem; font-weight: bold; color: #8b3dff; margin: 1.5rem 0 1rem; }
+        #tab-description h3, .hentry h3 { font-size: 1.4rem; font-weight: bold; color: #ff7a21; margin: 1.2rem 0 0.8rem; }
+        #tab-description ul, .hentry ul { list-style-type: disc; padding-left: 2rem; margin-bottom: 1rem; }
+        #tab-description p, .hentry p { margin-bottom: 1rem; line-height: 1.7; }
+        
+        /* Hiệu ứng cho đường Link */
+        #tab-description a, .hentry a { color: #8b3dff; text-decoration: underline; font-weight: 600; transition: color 0.3s ease; }
+        #tab-description a:hover, .hentry a:hover { color: #ff7a21; }
+        
+        /* Chỉnh sửa giao diện Bình luận mặc định của WP */
+        ol.comment-list { list-style: none; padding: 0; margin: 0; }
+        ol.comment-list li.comment { border-bottom: 1px solid #f3f4f6; padding-bottom: 2rem; margin-bottom: 2rem; }
+        ol.comment-list li.comment:last-child { border-bottom: none; }
+        .comment-body { display: flex; flex-direction: column; }
+        @media (min-width: 640px) { .comment-body { flex-direction: row; gap: 1.5rem; } }
+        .comment-author.vcard { flex-shrink: 0; text-align: center; margin-bottom: 1rem; }
+        .comment-author.vcard img { border-radius: 50%; width: 56px; height: 56px; border: 2px solid white; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); display: inline-block; }
+        .comment-author.vcard cite { font-style: normal; font-weight: 700; color: #1f2937; display: block; margin-top: 0.5rem; }
+        .comment-meta { font-size: 0.875rem; color: #6b7280; margin-bottom: 1rem; }
+        .comment-meta a { color: #8b3dff; text-decoration: none; font-weight: 500; }
+        .comment-content { color: #4b5563; line-height: 1.6; background: #fafafa; padding: 1.5rem; border-radius: 1.5rem; border: 1px solid #f3f4f6; position: relative; }
+        .reply a { display: inline-flex; align-items: center; justify-content: center; margin-top: 1rem; font-size: 0.875rem; color: #ff7a21; font-weight: 700; background: #fff1eb; padding: 0.5rem 1rem; border-radius: 9999px; transition: all 0.2s; text-decoration: none; }
+        .reply a:hover { background: #ff7a21; color: white; transform: translateY(-1px); }
+        ul.children { list-style: none; padding-left: 2rem; margin-top: 2rem; border-left: 2px dashed #e5e7eb; }
     </style>
     <?php wp_head(); ?>
 </head>
 <body <?php body_class('text-gray-800 font-sans min-h-screen'); ?>>
 
+<header>
     <div class="bg-white py-4 px-8 flex flex-col md:flex-row justify-between items-center gap-4">
-        <div class="text-3xl font-bold text-[#8b3dff]">
+        <a href="<?php echo home_url('/'); ?>" class="text-3xl font-bold text-[#8b3dff] hover:opacity-80 transition-opacity">
             Siêu Thị Thú Cưng FSE
-        </div>
+        </a>
 
         <div class="flex-1 max-w-2xl w-full relative">
             <input type="text" placeholder="Tìm kiếm sản phẩm..." class="w-full bg-gray-100 text-gray-700 rounded-full py-3 px-6 pr-16 focus:outline-none focus:ring-2 focus:ring-[#8b3dff]">
@@ -57,8 +90,8 @@
 
     <div class="bg-white border-t border-b border-gray-100 py-3 px-8 flex justify-between items-center sticky top-0 z-50 shadow-sm">
         <nav class="flex space-x-6 text-sm font-bold text-gray-800 items-center relative z-50">
-            <a href="#" class="hover:text-[#8b3dff] py-2 transition-colors">Trang Chủ</a>
-            <a href="#" class="hover:text-[#8b3dff] py-2 transition-colors">Giới Thiệu</a>
+            <a href="<?php echo home_url('/'); ?>" class="hover:text-[#8b3dff] py-2 transition-colors">Trang Chủ</a>
+            <a href="#giothieu" class="hover:text-[#8b3dff] py-2 transition-colors">Giới Thiệu</a>
 
             <!-- Submenu Sản phẩm -->
             <div class="relative group">
@@ -135,9 +168,31 @@
                 </div>
             </div>
 
-            <a href="#" class="hover:text-[#8b3dff] py-2 transition-colors">Blog Thú Cưng</a>
+            <?php
+            function pet_get_blog_url() {
+                $posts_page_id = get_option('page_for_posts');
+                if ($posts_page_id) {
+                    return get_permalink($posts_page_id);
+                }
+                
+                // create or get category 'tin-tuc' to serve as backup link
+                $cat = get_term_by('slug', 'tin-tuc', 'category');
+                if (!$cat) {
+                    wp_insert_term('Tin tức', 'category', ['slug' => 'tin-tuc']);
+                    $cat = get_term_by('slug', 'tin-tuc', 'category');
+                }
+                if ($cat && !is_wp_error($cat)) {
+                    return get_term_link($cat);
+                }
+                
+                return home_url('/?post_type=post');
+            }
+            ?>
+            <a href="<?php echo esc_url(pet_get_blog_url()); ?>" class="hover:text-[#8b3dff] py-2 transition-colors">Blog Thú Cưng</a>
         </nav>
         <div class="font-bold text-sm text-gray-800">
-            Hỗ trợ 24/7: <span class="text-orange-500">1800 1060</span>
+            Hỗ trợ 24/7: <a href="tel:18001060" class="text-orange-500 hover:underline">1800 1060</a>
         </div>
     </div>
+</header>
+<main id="main-content">

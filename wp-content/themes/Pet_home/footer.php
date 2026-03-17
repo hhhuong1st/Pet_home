@@ -1,3 +1,4 @@
+</main>
 <footer class="bg-[#ff7a21] text-white pt-16">
         <div class="max-w-7xl mx-auto px-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 pb-12">
             
@@ -30,10 +31,10 @@
             <div>
                 <h3 class="text-xl font-bold mb-6">Hình Ảnh Nổi Bật</h3>
                 <div class="grid grid-cols-2 gap-3">
-                    <img src="https://images.unsplash.com/photo-1628009368231-7bb7cfcb0def?w=150&h=100&fit=crop" class="rounded-lg object-cover w-full h-16 shadow-md" alt="Gallery 1">
-                    <img src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=150&h=100&fit=crop" class="rounded-lg object-cover w-full h-16 shadow-md" alt="Gallery 2">
-                    <img src="https://images.unsplash.com/photo-1583337130417-3346a1be7dee?w=150&h=100&fit=crop" class="rounded-lg object-cover w-full h-16 shadow-md" alt="Gallery 3">
-                    <img src="https://images.unsplash.com/photo-1517849845537-4d257902454a?w=150&h=100&fit=crop" class="rounded-lg object-cover w-full h-16 shadow-md" alt="Gallery 4">
+                    <img src="https://images.unsplash.com/photo-1628009368231-7bb7cfcb0def?w=150&h=100&fit=crop" class="rounded-lg object-cover w-full h-16 shadow-md" alt="Chú chó tươi vui tại siêu thị thú cưng">
+                    <img src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=150&h=100&fit=crop" class="rounded-lg object-cover w-full h-16 shadow-md" alt="Mèo con với đồ chơi thú cưng">
+                    <img src="https://images.unsplash.com/photo-1583337130417-3346a1be7dee?w=150&h=100&fit=crop" class="rounded-lg object-cover w-full h-16 shadow-md" alt="Các dòng sản phẩm chăm sóc chó mèo cao cấp">
+                    <img src="https://images.unsplash.com/photo-1517849845537-4d257902454a?w=150&h=100&fit=crop" class="rounded-lg object-cover w-full h-16 shadow-md" alt="Dịch vụ spa và grooming cho thú y chuyên nghiệp">
                 </div>
             </div>
         </div>
