@@ -13,7 +13,8 @@
                         'hide_empty' => false,
                     ));
 
-                    $colors = ['#fbc02d', '#29b6f6', '#ef5350', '#d84315', '#c0ca33', '#5c6bc0', '#263238'];
+                    // Bảng màu để xoay vòng tự động gán cho mỗi danh mục
+                    $colors = ['#52a6ce', '#dca449', '#1b2b22', '#c6364a', '#4b553d', '#9f85ff', '#d2b897', '#e4aeba', '#fbc02d', '#29b6f6', '#ef5350'];
                     $i = 0;
 
                     if (!empty($product_categories) && !is_wp_error($product_categories)) :
@@ -21,26 +22,31 @@
                             $current_color = $colors[$i % count($colors)];
                             $i++;
 
+                            // Lấy URL hình ảnh được upload cho danh mục trong trang Quản trị (Admin)
                             $thumbnail_id = get_term_meta($cat->term_id, 'thumbnail_id', true);
                             $image_url = wp_get_attachment_url($thumbnail_id);
                             
+                            // Nếu trong admin danh mục chưa được tải ảnh lên, lấy ảnh mặc định
                             if (!$image_url) {
                                 $image_url = get_template_directory_uri() . '/images/placeholder-icon.png';
                             }
                             ?>
                             
                             <a href="<?php echo get_term_link($cat); ?>" 
-                               class="flex justify-between items-center text-white px-4 py-3 rounded-full hover:scale-105 transition-transform duration-300 shadow-sm"
+                               class="flex justify-between items-center text-white p-2 pr-4 rounded-full hover:scale-105 transition-transform duration-300 shadow-sm my-1"
                                style="background-color: <?php echo $current_color; ?>;">
                                 
-                                <span class="flex items-center text-sm font-semibold">
-                                    <span class="bg-white rounded-full w-7 h-7 flex justify-center items-center mr-2 overflow-hidden p-1">
-                                        <img src="<?php echo $image_url; ?>" alt="<?php echo $cat->name; ?>" class="w-full h-full object-contain">
+                                <span class="flex items-center">
+                                    <span class="bg-white rounded-full w-10 h-10 flex justify-center items-center mr-3 overflow-hidden p-0 border-2 border-white/20 shadow-sm flex-shrink-0">
+                                        <img src="<?php echo $image_url; ?>" alt="<?php echo $cat->name; ?>" class="w-full h-full object-cover">
                                     </span> 
-                                    <?php echo $cat->name; ?>
+                                    <span class="flex flex-col text-left">
+                                        <span class="text-sm font-bold leading-tight"><?php echo $cat->name; ?></span>
+                                        <span class="text-[10px] opacity-90 font-medium mt-0.5">Xem Sản Phẩm</span>
+                                    </span>
                                 </span>
                                 
-                                <span class="bg-white rounded-full w-5 h-5 flex justify-center items-center text-xs font-bold" 
+                                <span class="bg-white rounded-full w-6 h-6 flex justify-center items-center text-xs font-bold shadow-md flex-shrink-0 ml-2" 
                                       style="color: <?php echo $current_color; ?>;">
                                     ›
                                 </span>
@@ -82,142 +88,7 @@
         </div>
     </section>
 
-    <section class="max-w-7xl mx-auto px-8 py-16">
-        <h2 class="text-3xl font-extrabold mb-10 flex items-center">
-            Danh Mục Thú Cưng <span class="text-orange-500 ml-2">🐾</span>
-        </h2>
-        
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <?php
-            function pet_get_cat_link($slug) {
-                $names = [
-                    'cho' => 'Chó',
-                    'meo' => 'Mèo',
-                    'ca' => 'Cá',
-                    'chuot' => 'Chuột',
-                    'chim' => 'Chim',
-                    'bo-sat' => 'Bò Sát',
-                    'rua' => 'Rùa',
-                    'tho' => 'Thỏ'
-                ];
 
-                $term = get_term_by('slug', $slug, 'product_cat');
-                if ($term && !is_wp_error($term)) {
-                    return get_term_link($term);
-                }
-                
-                $name = isset($names[$slug]) ? $names[$slug] : ucfirst($slug);
-                $term_by_name = get_term_by('name', $name, 'product_cat');
-                
-                if ($term_by_name && !is_wp_error($term_by_name)) {
-                    return get_term_link($term_by_name);
-                }
-                
-                // Tự động tạo danh mục nếu chưa có để link không bị lỗi
-                $new_term = wp_insert_term(
-                    $name,
-                    'product_cat',
-                    array(
-                        'slug' => $slug
-                    )
-                );
-                
-                if (!is_wp_error($new_term) && isset($new_term['term_id'])) {
-                    return get_term_link((int)$new_term['term_id'], 'product_cat');
-                }
-
-                return home_url('/?s=&post_type=product'); // fallback link
-            }
-            ?>
-            <a href="<?php echo pet_get_cat_link('cho'); ?>" class="bg-[#52a6ce] rounded-full p-2 pr-6 flex items-center justify-between hover:-translate-y-1 transition duration-300 cursor-pointer shadow-sm block w-full">
-                <div class="flex items-center">
-                    <img src="<?php echo get_template_directory_uri(); ?>/images/category-one.png" alt="Dog" class="w-20 h-20 rounded-full object-cover border-4 border-white/20">
-                    <div class="ml-4 text-white">
-                        <div class="font-bold text-lg">Chó</div>
-                        <div class="text-xs opacity-80">Xem Sản Phẩm</div>
-                    </div>
-                </div>
-                <div class="bg-white text-gray-800 rounded-full w-8 h-8 flex items-center justify-center font-bold shadow-md min-w-[2rem] w-8">›</div>
-            </a>
-            
-            <a href="<?php echo pet_get_cat_link('meo'); ?>" class="bg-[#dca449] rounded-full p-2 pr-6 flex items-center justify-between hover:-translate-y-1 transition duration-300 cursor-pointer shadow-sm block w-full">
-                <div class="flex items-center">
-                    <img src="<?php echo get_template_directory_uri(); ?>/images/category-two.png" alt="Cat" class="w-20 h-20 rounded-full object-cover border-4 border-white/20">
-                    <div class="ml-4 text-white">
-                        <div class="font-bold text-lg">Mèo</div>
-                        <div class="text-xs opacity-80">Xem Sản Phẩm</div>
-                    </div>
-                </div>
-                <div class="bg-white text-gray-800 rounded-full w-8 h-8 flex items-center justify-center font-bold shadow-md min-w-[2rem] w-8">›</div>
-            </a>
-
-            <a href="<?php echo pet_get_cat_link('ca'); ?>" class="bg-[#1b2b22] rounded-full p-2 pr-6 flex items-center justify-between hover:-translate-y-1 transition duration-300 cursor-pointer shadow-sm block w-full">
-                <div class="flex items-center">
-                    <img src="<?php echo get_template_directory_uri(); ?>/images/category-three.png" alt="Fish" class="w-20 h-20 rounded-full object-cover border-4 border-white/20">
-                    <div class="ml-4 text-white">
-                        <div class="font-bold text-lg">Cá</div>
-                        <div class="text-xs opacity-80">Xem Sản Phẩm</div>
-                    </div>
-                </div>
-                <div class="bg-white text-gray-800 rounded-full w-8 h-8 flex items-center justify-center font-bold shadow-md min-w-[2rem] w-8">›</div>
-            </a>
-
-            <a href="<?php echo pet_get_cat_link('chuot'); ?>" class="bg-[#c6364a] rounded-full p-2 pr-6 flex items-center justify-between hover:-translate-y-1 transition duration-300 cursor-pointer shadow-sm block w-full">
-                <div class="flex items-center">
-                    <img src="<?php echo get_template_directory_uri(); ?>/images/category-four.png" alt="Mouse" class="w-20 h-20 rounded-full object-cover border-4 border-white/20">
-                    <div class="ml-4 text-white">
-                        <div class="font-bold text-lg">Chuột</div>
-                        <div class="text-xs opacity-80">Xem Sản Phẩm</div>
-                    </div>
-                </div>
-                <div class="bg-white text-gray-800 rounded-full w-8 h-8 flex items-center justify-center font-bold shadow-md min-w-[2rem] w-8">›</div>
-            </a>
-
-            <a href="<?php echo pet_get_cat_link('chim'); ?>" class="bg-[#4b553d] rounded-full p-2 pr-6 flex items-center justify-between hover:-translate-y-1 transition duration-300 cursor-pointer shadow-sm block w-full">
-                <div class="flex items-center">
-                    <img src="<?php echo get_template_directory_uri(); ?>/images/category-five.png" alt="Birds" class="w-20 h-20 rounded-full object-cover border-4 border-white/20">
-                    <div class="ml-4 text-white">
-                        <div class="font-bold text-lg">Chim</div>
-                        <div class="text-xs opacity-80">Xem Sản Phẩm</div>
-                    </div>
-                </div>
-                <div class="bg-white text-gray-800 rounded-full w-8 h-8 flex items-center justify-center font-bold shadow-md min-w-[2rem] w-8">›</div>
-            </a>
-
-            <a href="<?php echo pet_get_cat_link('bo-sat'); ?>" class="bg-[#9f85ff] rounded-full p-2 pr-6 flex items-center justify-between hover:-translate-y-1 transition duration-300 cursor-pointer shadow-sm block w-full">
-                <div class="flex items-center">
-                    <img src="<?php echo get_template_directory_uri(); ?>/images/category-six.png" alt="Lizards" class="w-20 h-20 rounded-full object-cover border-4 border-white/20">
-                    <div class="ml-4 text-white">
-                        <div class="font-bold text-lg">Bò Sát</div>
-                        <div class="text-xs opacity-80">Xem Sản Phẩm</div>
-                    </div>
-                </div>
-                <div class="bg-white text-gray-800 rounded-full w-8 h-8 flex items-center justify-center font-bold shadow-md min-w-[2rem] w-8">›</div>
-            </a>
-
-            <a href="<?php echo pet_get_cat_link('rua'); ?>" class="bg-[#d2b897] rounded-full p-2 pr-6 flex items-center justify-between hover:-translate-y-1 transition duration-300 cursor-pointer shadow-sm block w-full">
-                <div class="flex items-center">
-                    <img src="<?php echo get_template_directory_uri(); ?>/images/category-seven.png" alt="Turtles" class="w-20 h-20 rounded-full object-cover border-4 border-white/20">
-                    <div class="ml-4 text-white">
-                        <div class="font-bold text-lg">Rùa</div>
-                        <div class="text-xs opacity-80">Xem Sản Phẩm</div>
-                    </div>
-                </div>
-                <div class="bg-white text-gray-800 rounded-full w-8 h-8 flex items-center justify-center font-bold shadow-md min-w-[2rem] w-8">›</div>
-            </a>
-
-            <a href="<?php echo pet_get_cat_link('tho'); ?>" class="bg-[#e4aeba] rounded-full p-2 pr-6 flex items-center justify-between hover:-translate-y-1 transition duration-300 cursor-pointer shadow-sm block w-full">
-                <div class="flex items-center">
-                    <img src="<?php echo get_template_directory_uri(); ?>/images/category-eight.png" alt="Rabbit" class="w-20 h-20 rounded-full object-cover border-4 border-white/20">
-                    <div class="ml-4 text-white">
-                        <div class="font-bold text-lg">Thỏ</div>
-                        <div class="text-xs opacity-80">Xem Sản Phẩm</div>
-                    </div>
-                </div>
-                <div class="bg-white text-gray-800 rounded-full w-8 h-8 flex items-center justify-center font-bold shadow-md min-w-[2rem] w-8">›</div>
-            </a>
-        </div>
-    </section>
 
     <section class="max-w-7xl mx-auto px-8 py-10">
         <h2 class="text-3xl font-extrabold mb-10 flex items-center">
