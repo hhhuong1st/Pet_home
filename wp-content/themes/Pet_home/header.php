@@ -3,12 +3,12 @@
 <head>
     <meta charset="<?php bloginfo('charset'); ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="<?php echo is_single() ? wp_trim_words(get_the_excerpt(), 20) : 'Phòng khám thú y & Siêu thị thú cưng FSE. Cung cấp thức ăn, phụ kiện, dịch vụ chăm sóc thú cưng uy tín, chất lượng nhất.'; ?>">
+    <meta name="description" content="<?php echo is_single() ? wp_trim_words(get_the_excerpt(), 20) : 'Phòng khám thú y & Pet Shop. Cung cấp thức ăn, phụ kiện, dịch vụ chăm sóc thú cưng uy tín, chất lượng nhất.'; ?>">
     <meta name="robots" content="index, follow">
 
     <!-- Thẻ Open Graph (Chuẩn SEO Facebook, Zalo, mạng xã hội) -->
     <meta property="og:title" content="<?php wp_title('|', true, 'right'); bloginfo('name'); ?>">
-    <meta property="og:description" content="Phòng khám thú y & Siêu thị thú cưng FSE - Điểm đến tin cậy cho thú cưng của bạn.">
+    <meta property="og:description" content="Phòng khám thú y & Pet Shop - Điểm đến tin cậy cho thú cưng của bạn.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="<?php echo home_url('/'); ?>">
 
@@ -52,8 +52,11 @@
 
 <header>
     <div class="bg-white py-4 px-8 flex flex-col md:flex-row justify-between items-center gap-4">
-        <a href="<?php echo home_url('/'); ?>" class="text-3xl font-bold text-[#8b3dff] hover:opacity-80 transition-opacity">
-            Siêu Thị Thú Cưng FSE
+        <a href="<?php echo home_url('/'); ?>" class="flex items-center hover:opacity-80 transition-opacity" style="height: 80px;">
+            <img src="<?php echo get_template_directory_uri(); ?>/images/logo.png" alt="Pet Shop Logo" style="height: 80px; width: auto; object-fit: contain; position: relative; z-index: 10;">
+            <div style="height: 80px; display: flex; align-items: center; margin-left: -25px; margin-right: 15px;">
+                <img src="<?php echo get_template_directory_uri(); ?>/images/logo_1.png" alt="Pet Home Text Logo" style="height: 250px; width: auto; max-width: none; object-fit: contain;">
+            </div>
         </a>
 
         <div class="flex-1 max-w-2xl w-full relative">
